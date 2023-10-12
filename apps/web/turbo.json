@@ -1,0 +1,10 @@
+{
+  "extends": ["//"],
+  "globalDependencies": ["**/.env.*local"],
+  "pipeline": {
+    "build": {
+      "outputs": [".next/**", "!.next/cache/**"]
+    }
+  },
+  "globalEnv": ["NEXT_API_URL"]
+}
