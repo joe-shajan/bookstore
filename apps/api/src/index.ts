@@ -67,8 +67,44 @@ app.post("/books", async (req, res) => {
 
 app.get("/books", async (req, res) => {
   try {
-    const books = await Book.find();
-    res.json(books);
+    // const books = await Book.find();
+
+    const books = [
+      {
+        id: "1",
+        title: "Sample Book 1",
+        author: "John Doe",
+        publicationYear: 2020,
+        isbn: "978-1234567890",
+        description: "This is a sample book description for Book 1.",
+      },
+      {
+        id: "2",
+        title: "Sample Book 2",
+        author: "Jane Smith",
+        publicationYear: 2015,
+        isbn: "978-0987654321",
+        description: "This is a sample book description for Book 2.",
+      },
+      {
+        id: "3",
+        title: "Sample Book 3",
+        author: "James Brown",
+        publicationYear: 2018,
+        isbn: "978-5432109876",
+        description: "This is a sample book description for Book 3.",
+      },
+      {
+        id: "4",
+        title: "Sample Book 4",
+        author: "Mary Johnson",
+        publicationYear: 2022,
+        isbn: "978-6789012345",
+        description: "This is a sample book description for Book 4.",
+      },
+    ];
+
+    res.json({ books });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Could not retrieve books" });

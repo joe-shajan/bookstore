@@ -37,11 +37,14 @@ module.exports = {
   ignorePatterns: ["node_modules/", "dist/"],
   // add rules configurations here
   rules: {
-    "no-console": "warn",
+    "no-console": "off",
     "import/no-default-export": "off",
-    "@typescript-eslint/no-unsafe-assignment": "warn",
+    "@typescript-eslint/no-unsafe-assignment": "off",
     "no-unused-vars": "off",
-    "@typescript-eslint/no-unused-vars": "warn",
-    "@typescript-eslint/no-unsafe-member-access": "warn",
+    "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/no-unsafe-member-access": "off",
+    "@typescript-eslint/no-unsafe-call": "off",
+    "@typescript-eslint/no-unsafe-return": "off",
+    "no-nested-ternary": "off",
   },
 };

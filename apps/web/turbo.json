@@ -6,5 +6,5 @@
       "outputs": [".next/**", "!.next/cache/**"]
     }
   },
-  "globalEnv": ["NEXT_API_URL"]
+  "globalEnv": ["NEXT_PUBLIC_BACKEND_URL"]
 }
