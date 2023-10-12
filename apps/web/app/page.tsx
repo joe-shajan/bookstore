@@ -62,6 +62,7 @@ export default function Page(): JSX.Element {
               <BookCard
                 book={book}
                 key={book._id}
+                refetch={refetch}
                 setEditingBook={setEditingBook}
               />
             ))

@@ -8,6 +8,8 @@ import {
   BsThreeDotsVertical,
 } from "react-icons/bs";
 import { MdOutlineDescription } from "react-icons/md";
+import { useMutation } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 import type { InterfaceBook } from "@/types";
 import {
   DropdownMenu,
@@ -15,13 +17,32 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { axios } from "@/lib";
 
 interface InterfaceBookCard {
   book: InterfaceBook;
+  refetch: () => void;
   setEditingBook: (book: InterfaceBook | null) => void;
 }
 
-function BookCard({ book, setEditingBook }: InterfaceBookCard): JSX.Element {
+function BookCard({
+  book,
+  setEditingBook,
+  refetch,
+}: InterfaceBookCard): JSX.Element {
+  const deleteBookMutation = useMutation({
+    mutationFn: (bookId: string) => {
+      return axios.delete(`/books/${bookId}`);
+    },
+    onSuccess: () => {
+      refetch();
+      toast.success("book deleted successfully");
+    },
+    onError: () => {
+      toast.error("deleting book failed");
+    },
+  });
+
   return (
     <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/4">
       <article className="bg-gray-50 overflow-hidden rounded-lg shadow-md hover:shadow-lg border-slate-100 border p-3 md:p-0 text-slate-700">
@@ -69,7 +90,13 @@ function BookCard({ book, setEditingBook }: InterfaceBookCard): JSX.Element {
                 >
                   Edit
                 </DropdownMenuItem>
-                <DropdownMenuItem>Delete</DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => {
+                    deleteBookMutation.mutate(book._id as string);
+                  }}
+                >
+                  {deleteBookMutation.isLoading ? "Deleting..." : "Delete"}
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
