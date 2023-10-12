@@ -6,6 +6,15 @@ require("dotenv").config();
 const app = express();
 const port = process.env.PORT || 8080;
 
+app.use(express.json());
+app.use(
+  express.urlencoded({
+    extended: true,
+  })
+);
+
+app.use(cors());
+
 async function connectToDatabase() {
   await mongoose.connect(process.env.DB_URL as string);
 }
@@ -18,8 +27,6 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 db.once("open", () => {
   console.log("Connected to MongoDB");
 });
-
-app.use(cors());
 
 // Define your book schema and model
 const bookSchema = new mongoose.Schema({
@@ -47,6 +54,7 @@ app.get("/", (_req: Request, res: Response) => {
 app.post("/books", async (req, res) => {
   try {
     const { title, author, publicationYear, isbn, description } = req.body;
+    console.log(req.body);
 
     const newBook = new Book({
       title,
@@ -56,9 +64,9 @@ app.post("/books", async (req, res) => {
       description,
     });
 
-    const savedBook = await newBook.save();
+    const createdbook = await newBook.save();
 
-    res.json(savedBook);
+    res.json({ createdbook });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Could not create a new book" });
@@ -67,42 +75,7 @@ app.post("/books", async (req, res) => {
 
 app.get("/books", async (req, res) => {
   try {
-    // const books = await Book.find();
-
-    const books = [
-      {
-        id: "1",
-        title: "Sample Book 1",
-        author: "John Doe",
-        publicationYear: 2020,
-        isbn: "978-1234567890",
-        description: "This is a sample book description for Book 1.",
-      },
-      {
-        id: "2",
-        title: "Sample Book 2",
-        author: "Jane Smith",
-        publicationYear: 2015,
-        isbn: "978-0987654321",
-        description: "This is a sample book description for Book 2.",
-      },
-      {
-        id: "3",
-        title: "Sample Book 3",
-        author: "James Brown",
-        publicationYear: 2018,
-        isbn: "978-5432109876",
-        description: "This is a sample book description for Book 3.",
-      },
-      {
-        id: "4",
-        title: "Sample Book 4",
-        author: "Mary Johnson",
-        publicationYear: 2022,
-        isbn: "978-6789012345",
-        description: "This is a sample book description for Book 4.",
-      },
-    ];
+    const books = await Book.find();
 
     res.json({ books });
   } catch (error) {

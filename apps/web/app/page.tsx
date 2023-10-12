@@ -5,8 +5,13 @@ import BookCard from "@/components/book/book-card";
 import { Button } from "@/components/button";
 import { getAllBooks } from "@/services/book-services";
 import { Loader } from "@/components/loader";
+import useModal from "@/hooks/use-modal";
+import Modal from "@/components/modal";
+import { CreateBook } from "@/components/book/create-book";
 
 export default function Page(): JSX.Element {
+  const { isOpen, toggle } = useModal();
+
   const { data, isLoading, error } = useQuery({
     queryKey: ["books"],
     queryFn: () => getAllBooks(),
@@ -14,12 +19,15 @@ export default function Page(): JSX.Element {
 
   return (
     <>
+      <Modal isOpen={isOpen} toggle={toggle}>
+        <CreateBook toggle={toggle} />
+      </Modal>
       <div className="flex md:flex-row flex-col md:justify-between md:items-center px-4 md:px-12 lg:px-28 mt-6 mb-2">
         <div className="text-2xl font-semibold text-center md:text-left md:mb-0 mb-6">
           All Books
         </div>
         <div className="flex justify-end">
-          <Button>Create New Book</Button>
+          <Button onClick={toggle}>Create New Book</Button>
         </div>
       </div>
       <div className="container my-4 mx-auto px-4 md:px-12 lg:px-28">

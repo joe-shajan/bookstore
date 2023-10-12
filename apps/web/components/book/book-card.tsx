@@ -1,9 +1,8 @@
 import Link from "next/link";
 import React from "react";
+import { CiBarcode } from "react-icons/ci";
+import { BsBook, BsCalendar2Date, BsPen } from "react-icons/bs";
 import { MdOutlineDescription } from "react-icons/md";
-import { HiOutlineLocationMarker } from "react-icons/hi";
-import { BiNavigation } from "react-icons/bi";
-import { BsShop } from "react-icons/bs";
 import type { InterfaceBook } from "@/types";
 
 interface InterfaceBookCard {
@@ -18,25 +17,30 @@ function BookCard({ book }: InterfaceBookCard): JSX.Element {
           <header className="leading-tight p-2 pb-1">
             <div className="text-xl font-semibold flex items-center justify-center gap-3">
               <span>
-                <BsShop />
+                <BsBook />
               </span>
               <span>{book.title}</span>
             </div>
             <div className="  flex items-center gap-1 text-grey-darker text-sm mt-4 px-0 md:px-2 ">
-              <MdOutlineDescription />
+              <BsPen />
               <p className="font-semibold">{book.author}</p>
             </div>
           </header>
 
           <footer className="flex flex-col gap-1 leading-none px-2 md:px-4 pb-2 ">
             <div className="flex items-center gap-1 text-sm">
-              <HiOutlineLocationMarker />
+              <BsCalendar2Date />
               <span className="font-semibold">{book.publicationYear}</span>
             </div>
-            <div className="text-sm flex items-center gap-1">
-              <BiNavigation />
-              <span className="font-semibold">{book.isbn}</span> ,
-              <span className="font-semibold">{book.description}</span>
+            <div className="text-sm items-center gap-1">
+              <div className="flex items-center gap-1 text-sm">
+                <MdOutlineDescription />
+                <span className="font-semibold">{book.description}</span>
+              </div>
+              <div className="flex items-center gap-1 text-sm">
+                <CiBarcode />
+                <span className="font-semibold">{book.isbn}</span>
+              </div>
             </div>
           </footer>
         </article>
