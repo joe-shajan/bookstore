@@ -6,8 +6,8 @@ import { z } from "zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast, { Toaster } from "react-hot-toast";
 import { AiOutlineClose } from "react-icons/ai";
-import { Button } from "../button";
-import { Loader } from "../loader";
+import { Button } from "../ui/button";
+import { Loader } from "../ui/loader";
 import { axios } from "@/lib/axios";
 
 const validationSchema = z.object({

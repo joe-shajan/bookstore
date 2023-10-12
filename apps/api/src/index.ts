@@ -76,6 +76,7 @@ app.post("/books", async (req, res) => {
 app.get("/books", async (req, res) => {
   try {
     const books = await Book.find();
+    console.log("in books");
 
     res.json({ books });
   } catch (error) {

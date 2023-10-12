@@ -45,6 +45,11 @@ var cors_1 = __importDefault(require("cors"));
 require("dotenv").config();
 var app = (0, express_1.default)();
 var port = process.env.PORT || 8080;
+app.use(express_1.default.json());
+app.use(express_1.default.urlencoded({
+    extended: true,
+}));
+app.use((0, cors_1.default)());
 function connectToDatabase() {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
@@ -64,7 +69,6 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 db.once("open", function () {
     console.log("Connected to MongoDB");
 });
-app.use((0, cors_1.default)());
 // Define your book schema and model
 var bookSchema = new mongoose_1.default.Schema({
     title: String,
@@ -78,12 +82,13 @@ app.get("/", function (_req, res) {
     return res.json({ message: "Express Typescript API on Vercel" });
 });
 app.post("/books", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, title, author, publicationYear, isbn, description, newBook, savedBook, error_1;
+    var _a, title, author, publicationYear, isbn, description, newBook, createdbook, error_1;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 _b.trys.push([0, 2, , 3]);
                 _a = req.body, title = _a.title, author = _a.author, publicationYear = _a.publicationYear, isbn = _a.isbn, description = _a.description;
+                console.log(req.body);
                 newBook = new Book({
                     title: title,
                     author: author,
@@ -93,8 +98,8 @@ app.post("/books", function (req, res) { return __awaiter(void 0, void 0, void 0
                 });
                 return [4 /*yield*/, newBook.save()];
             case 1:
-                savedBook = _b.sent();
-                res.json(savedBook);
+                createdbook = _b.sent();
+                res.json({ createdbook: createdbook });
                 return [3 /*break*/, 3];
             case 2:
                 error_1 = _b.sent();
@@ -114,7 +119,7 @@ app.get("/books", function (req, res) { return __awaiter(void 0, void 0, void 0,
                 return [4 /*yield*/, Book.find()];
             case 1:
                 books = _a.sent();
-                res.json(books);
+                res.json({ books: books });
                 return [3 /*break*/, 3];
             case 2:
                 error_2 = _a.sent();

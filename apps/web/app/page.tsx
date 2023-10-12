@@ -2,9 +2,9 @@
 
 import { useQuery } from "@tanstack/react-query";
 import BookCard from "@/components/book/book-card";
-import { Button } from "@/components/button";
+import { Button } from "@/components/ui/button";
 import { getAllBooks } from "@/services/book-services";
-import { Loader } from "@/components/loader";
+import { Loader } from "@/components/ui/loader";
 import useModal from "@/hooks/use-modal";
 import Modal from "@/components/modal";
 import { CreateBook } from "@/components/book/create-book";

@@ -1,9 +1,22 @@
 import Link from "next/link";
 import React from "react";
 import { CiBarcode } from "react-icons/ci";
-import { BsBook, BsCalendar2Date, BsPen } from "react-icons/bs";
+import {
+  BsBook,
+  BsCalendar2Date,
+  BsPen,
+  BsThreeDotsVertical,
+} from "react-icons/bs";
 import { MdOutlineDescription } from "react-icons/md";
 import type { InterfaceBook } from "@/types";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface InterfaceBookCard {
   book: InterfaceBook;
@@ -27,7 +40,7 @@ function BookCard({ book }: InterfaceBookCard): JSX.Element {
             </div>
           </header>
 
-          <footer className="flex flex-col gap-1 leading-none px-2 md:px-4 pb-2 ">
+          <footer className="flex flex-col gap-1 leading-none px-2 md:px-4 pb-4 ">
             <div className="flex items-center gap-1 text-sm">
               <BsCalendar2Date />
               <span className="font-semibold">{book.publicationYear}</span>
@@ -41,6 +54,17 @@ function BookCard({ book }: InterfaceBookCard): JSX.Element {
                 <CiBarcode />
                 <span className="font-semibold">{book.isbn}</span>
               </div>
+            </div>
+            <div className="flex justify-end">
+              <DropdownMenu>
+                <DropdownMenuTrigger>
+                  <BsThreeDotsVertical />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuItem>Edit</DropdownMenuItem>
+                  <DropdownMenuItem>Delete</DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </footer>
         </article>
