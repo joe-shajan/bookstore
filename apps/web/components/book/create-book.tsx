@@ -4,11 +4,13 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { AiOutlineClose } from "react-icons/ai";
 import { Button } from "../ui/button";
 import { Loader } from "../ui/loader";
 import { axios } from "@/lib/axios";
+import type { InterfaceBook } from "@/types";
+import { useEffect } from "react";
 
 const validationSchema = z.object({
   title: z.string().min(1, { message: "title is required" }),
@@ -24,10 +26,16 @@ type ValidationSchema = z.infer<typeof validationSchema>;
 
 interface InterfaceCreateBookFormProps {
   toggle: () => void;
+  refetch: () => void;
+  setEditingBook: (book: InterfaceBook | null) => void;
+  editingBook: InterfaceBook | null;
 }
 
 export function CreateBookForm({
   toggle,
+  editingBook,
+  refetch,
+  setEditingBook,
 }: InterfaceCreateBookFormProps): JSX.Element {
   const queryClient = useQueryClient();
 
@@ -35,6 +43,7 @@ export function CreateBookForm({
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm<ValidationSchema>({
     // @ts-ignore
     resolver: zodResolver(validationSchema),
@@ -58,11 +67,49 @@ export function CreateBookForm({
     },
   });
 
+  const editBookMutation = useMutation({
+    mutationFn: (data: ValidationSchema) => {
+      return axios.put(`/books/${editingBook?._id}`, data);
+    },
+    onSuccess: ({ data }) => {
+      // queryClient.setQueryData(["books"], (oldData: any) => {
+      //   const filteredData = oldData.books.filter(
+      //     (book: any) => book.id !== data.updatedbook.id
+      //   );
+
+      //   return [...filteredData, data.updatedbook];
+      // });
+      toggle();
+      refetch();
+      setEditingBook(null);
+      toast.success("book updated successfully");
+    },
+    onError: (error) => {
+      console.log(error);
+
+      toast.error("Could not update book");
+    },
+  });
+
+  useEffect(() => {
+    if (editingBook) {
+      setValue("title", editingBook.title as string);
+      setValue("author", editingBook.description as string);
+      setValue("publicationYear", editingBook.publicationYear as number);
+      setValue("isbn", editingBook.isbn as string);
+      setValue("description", editingBook.description as string);
+    }
+  }, [editingBook]);
+
   return (
     <form
       className="px-8 pt-6 pb-2 mb-4"
       onSubmit={handleSubmit((formData) => {
-        mutation.mutate(formData);
+        if (editingBook) {
+          editBookMutation.mutate(formData);
+        } else {
+          mutation.mutate(formData);
+        }
       })}
     >
       <div className="mb-4 md:mr-2">
@@ -183,7 +230,17 @@ export function CreateBookForm({
       </div>
       <div className="text-center">
         <Button className="w-full " type="submit">
-          {mutation.isLoading ? <Loader /> : "Create New book"}
+          {editingBook ? (
+            editBookMutation.isLoading ? (
+              <Loader />
+            ) : (
+              "Update Book"
+            )
+          ) : mutation.isLoading ? (
+            <Loader />
+          ) : (
+            "Add Book"
+          )}
         </Button>
       </div>
     </form>
@@ -192,9 +249,16 @@ export function CreateBookForm({
 
 interface CreateBookProps {
   toggle: () => void;
+  setEditingBook: (book: InterfaceBook | null) => void;
+  editingBook: InterfaceBook | null;
+  refetch: () => void;
 }
 
-export function CreateBook({ toggle }: CreateBookProps): JSX.Element {
+export function CreateBook({
+  toggle,
+  setEditingBook,
+  ...props
+}: CreateBookProps): JSX.Element {
   return (
     <div className="max-w-xl mx-auto my-auto py-4 w-full">
       <div className="flex justify-center">
@@ -203,15 +267,21 @@ export function CreateBook({ toggle }: CreateBookProps): JSX.Element {
             <h3 className="text-lg font-semibold">Create New book</h3>
             <Button
               className="text-lg cursor-pointer hover:bg-slate-100 bg-white p-1  text-black rounded-full"
-              onClick={toggle}
+              onClick={() => {
+                toggle();
+                setEditingBook(null);
+              }}
             >
               <AiOutlineClose />
             </Button>
           </div>
-          <CreateBookForm toggle={toggle} />
+          <CreateBookForm
+            setEditingBook={setEditingBook}
+            toggle={toggle}
+            {...props}
+          />
         </div>
       </div>
-      <Toaster />
     </div>
   );
 }

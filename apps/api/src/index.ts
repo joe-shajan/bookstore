@@ -76,7 +76,6 @@ app.post("/books", async (req, res) => {
 app.get("/books", async (req, res) => {
   try {
     const books = await Book.find();
-    console.log("in books");
 
     res.json({ books });
   } catch (error) {
@@ -102,9 +101,10 @@ app.get("/books/:id", async (req, res) => {
   }
 });
 
-app.put("/books/:id", async (req, res) => {
+app.put("/books/:bookId", async (req, res) => {
   try {
-    const bookId = req.params.id;
+    const { bookId } = req.params;
+
     const { title, author, publicationYear, isbn, description } = req.body;
 
     const updatedBook = await Book.findByIdAndUpdate(

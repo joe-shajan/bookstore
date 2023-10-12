@@ -13,20 +13,19 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
 interface InterfaceBookCard {
   book: InterfaceBook;
+  setEditingBook: (book: InterfaceBook | null) => void;
 }
 
-function BookCard({ book }: InterfaceBookCard): JSX.Element {
+function BookCard({ book, setEditingBook }: InterfaceBookCard): JSX.Element {
   return (
     <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/4">
-      <Link href={`/book/${book.id}`}>
-        <article className="bg-gray-50 overflow-hidden rounded-lg shadow-md hover:shadow-lg border-slate-100 border p-3 md:p-0 text-slate-700">
+      <article className="bg-gray-50 overflow-hidden rounded-lg shadow-md hover:shadow-lg border-slate-100 border p-3 md:p-0 text-slate-700">
+        <Link href={`/book/${book._id}`}>
           <header className="leading-tight p-2 pb-1">
             <div className="text-xl font-semibold flex items-center justify-center gap-3">
               <span>
@@ -39,8 +38,9 @@ function BookCard({ book }: InterfaceBookCard): JSX.Element {
               <p className="font-semibold">{book.author}</p>
             </div>
           </header>
-
-          <footer className="flex flex-col gap-1 leading-none px-2 md:px-4 pb-4 ">
+        </Link>
+        <footer className="flex flex-col gap-1 leading-none px-2 md:px-4 pb-4 ">
+          <Link href={`/book/${book._id}`}>
             <div className="flex items-center gap-1 text-sm">
               <BsCalendar2Date />
               <span className="font-semibold">{book.publicationYear}</span>
@@ -55,20 +55,26 @@ function BookCard({ book }: InterfaceBookCard): JSX.Element {
                 <span className="font-semibold">{book.isbn}</span>
               </div>
             </div>
-            <div className="flex justify-end">
-              <DropdownMenu>
-                <DropdownMenuTrigger>
-                  <BsThreeDotsVertical />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuItem>Edit</DropdownMenuItem>
-                  <DropdownMenuItem>Delete</DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-          </footer>
-        </article>
-      </Link>
+          </Link>
+          <div className="flex justify-end">
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <BsThreeDotsVertical />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem
+                  onClick={() => {
+                    setEditingBook(book);
+                  }}
+                >
+                  Edit
+                </DropdownMenuItem>
+                <DropdownMenuItem>Delete</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        </footer>
+      </article>
     </div>
   );
 }

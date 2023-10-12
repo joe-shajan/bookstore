@@ -1,6 +1,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import BookCard from "@/components/book/book-card";
 import { Button } from "@/components/ui/button";
 import { getAllBooks } from "@/services/book-services";
@@ -8,19 +9,35 @@ import { Loader } from "@/components/ui/loader";
 import useModal from "@/hooks/use-modal";
 import Modal from "@/components/modal";
 import { CreateBook } from "@/components/book/create-book";
+import type { InterfaceBook } from "@/types";
+import { Toaster } from "react-hot-toast";
 
 export default function Page(): JSX.Element {
-  const { isOpen, toggle } = useModal();
+  const { isOpen, toggle, openModal, closeModal } = useModal();
+  const [editingBook, setEditingBook] = useState<InterfaceBook | null>(null);
 
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading, error, refetch } = useQuery({
     queryKey: ["books"],
     queryFn: () => getAllBooks(),
   });
 
+  useEffect(() => {
+    if (editingBook) {
+      openModal();
+    } else {
+      closeModal();
+    }
+  }, [closeModal, editingBook, openModal]);
+
   return (
     <>
       <Modal isOpen={isOpen} toggle={toggle}>
-        <CreateBook toggle={toggle} />
+        <CreateBook
+          editingBook={editingBook}
+          refetch={refetch}
+          setEditingBook={setEditingBook}
+          toggle={toggle}
+        />
       </Modal>
       <div className="flex md:flex-row flex-col md:justify-between md:items-center px-4 md:px-12 lg:px-28 mt-6 mb-2">
         <div className="text-2xl font-semibold text-center md:text-left md:mb-0 mb-6">
@@ -41,7 +58,13 @@ export default function Page(): JSX.Element {
               <Loader size="xl" />
             </div>
           ) : data?.length ? (
-            data.map((book) => <BookCard book={book} key={book.id} />)
+            data.map((book) => (
+              <BookCard
+                book={book}
+                key={book._id}
+                setEditingBook={setEditingBook}
+              />
+            ))
           ) : (
             <div className="text-lg container my-2 mx-auto px-4 md:px-12 lg:px-28 flex justify-center items-center h-[400px]">
               No books found create new.
@@ -49,6 +72,7 @@ export default function Page(): JSX.Element {
           )}
         </div>
       </div>
+      <Toaster />
     </>
   );
 }
