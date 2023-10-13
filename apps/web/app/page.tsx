@@ -2,6 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import BookCard from "@/components/book/book-card";
 import { Button } from "@/components/ui/button";
 import { getAllBooks } from "@/services/book-services";
@@ -54,7 +55,14 @@ export default function Page(): JSX.Element {
           All Books
         </div>
         <div className="flex justify-end">
-          <Button onClick={toggle}>Create New Book</Button>
+          <div className="flex gap-3 justify-end">
+            <Link href="/search">
+              <Button className="bg-slate-200 text-black hover:bg-slate-300">
+                Search
+              </Button>
+            </Link>
+            <Button onClick={toggle}>Create New Book</Button>
+          </div>
         </div>
       </div>
       <div className="container my-4 mx-auto px-4 md:px-12 lg:px-28">

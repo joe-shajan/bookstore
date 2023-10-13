@@ -22,7 +22,7 @@ import { axios } from "@/lib";
 interface InterfaceBookCard {
   book: InterfaceBook;
   refetch: () => void;
-  setEditingBook: (book: InterfaceBook | null) => void;
+  setEditingBook?: (book: InterfaceBook | null) => void;
 }
 
 function BookCard({
@@ -85,7 +85,9 @@ function BookCard({
               <DropdownMenuContent>
                 <DropdownMenuItem
                   onClick={() => {
-                    setEditingBook(book);
+                    if (setEditingBook) {
+                      setEditingBook(book);
+                    }
                   }}
                 >
                   Edit

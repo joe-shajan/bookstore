@@ -142,9 +142,11 @@ app.get("/search", async (req, res) => {
         _id: hit._id,
         // @ts-ignore
         ...hit._source,
+        // @ts-ignore
+        publicationYear: +hit._source.publicationYear,
       };
     });
-    res.json(books);
+    res.json({ books });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Error performing the search" });
@@ -188,7 +190,7 @@ app.get("/books/:bookId", async (req, res) => {
       return res.status(404).json({ error: "Book not found" });
     }
 
-    res.json(book);
+    res.json({ book });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Could not retrieve the book" });
