@@ -1,4 +1,4 @@
-import { elasticClient } from "@/elastic-client";
+import { elasticClient } from "@/database/elastic-client";
 import { HttpException } from "@/exceptions/httpException";
 import { Book } from "@/models/book.model";
 

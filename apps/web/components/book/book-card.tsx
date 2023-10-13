@@ -67,13 +67,13 @@ export function BookCard({
             </div>
             <div className="text-sm items-center justify-center gap-1">
               <div className="gap-1 mt-3 text-sm max-h-[40px] overflow-hidden text-ellipsis">
-                <p className="font-semibold text-center mx-4">
+                <p className="font-medium text-center mx-4">
                   {book.description}
                 </p>
               </div>
               <div className="flex items-center justify-center gap-1 mt-3 text-sm">
                 <CiBarcode size={18} />
-                <span className="font-semibold">{book.isbn}</span>
+                <span className="font-medium text-slate-600">{book.isbn}</span>
               </div>
             </div>
           </Link>

@@ -1,5 +1,5 @@
 import { Client } from "@elastic/elasticsearch";
-import { ELASTIC_CLOUD_ID } from "./config";
+import { ELASTIC_CLOUD_ID } from "../config";
 
 export const elasticClient = new Client({
   cloud: {

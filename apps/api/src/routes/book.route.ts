@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { Routes } from "@interfaces/routes.interface";
 import { BookController } from "@/controllers/book.controller";
+import { validateBook } from "@/middlewares";
 
 export class BooktRoute implements Routes {
   public path = "/books";
@@ -13,12 +14,22 @@ export class BooktRoute implements Routes {
 
   private initializeRoutes() {
     this.router.get(`${this.path}`, this.bookController.getBooks);
-    this.router.post(`${this.path}`, this.bookController.createBook);
+    this.router.post(
+      `${this.path}`,
+      validateBook(),
+      this.bookController.createBook
+    );
 
     this.router.get(`${this.path}/search`, this.bookController.searchBook);
 
     this.router.get(`${this.path}/:bookId`, this.bookController.getBookById);
-    this.router.put(`${this.path}/:bookId`, this.bookController.updateBookById);
+
+    this.router.put(
+      `${this.path}/:bookId`,
+      validateBook(),
+      this.bookController.updateBookById
+    );
+
     this.router.delete(
       `${this.path}/:bookId`,
       this.bookController.deleteBookById
