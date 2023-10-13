@@ -7,7 +7,6 @@ import {
   BsPen,
   BsThreeDotsVertical,
 } from "react-icons/bs";
-import { MdOutlineDescription } from "react-icons/md";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
 import type { InterfaceBook } from "@/types";
@@ -68,7 +67,6 @@ export function BookCard({
             </div>
             <div className="text-sm items-center justify-center gap-1">
               <div className="gap-1 mt-3 text-sm max-h-[40px] overflow-hidden text-ellipsis">
-                {/* <MdOutlineDescription size={18} /> */}
                 <p className="font-semibold text-center mx-4">
                   {book.description}
                 </p>

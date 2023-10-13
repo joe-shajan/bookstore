@@ -32,7 +32,7 @@ export class BookService {
   };
 
   public getBooks = async (page: number) => {
-    const itemsPerPage = 12;
+    const itemsPerPage = 9;
 
     const skip = page * itemsPerPage;
 

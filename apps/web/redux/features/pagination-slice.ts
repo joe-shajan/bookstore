@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const LIMIT = 12;
+const LIMIT = 9;
 
 interface PaginationState {
   page: number;
@@ -14,7 +14,7 @@ const initialState = {
   page: 0,
   skip: 0,
   start: 1,
-  end: 12,
+  end: LIMIT,
   TotalBooks: 0,
 } as PaginationState;
 
@@ -23,7 +23,7 @@ export const pagination = createSlice({
   initialState,
   reducers: {
     next: (state) => {
-      if (state.skip + 12 < state.TotalBooks) {
+      if (state.skip + LIMIT < state.TotalBooks) {
         state.page += 1;
         state.skip = LIMIT * state.page;
         state.start = state.page * LIMIT + 1;
