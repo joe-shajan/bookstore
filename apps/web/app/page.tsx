@@ -11,14 +11,20 @@ import Modal from "@/components/modal";
 import { CreateBook } from "@/components/book/create-book";
 import type { InterfaceBook } from "@/types";
 import { Toaster } from "react-hot-toast";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { updateTotalBooks } from "@/redux/features/pagination-slice";
+import Pagination from "@/components/pagination";
 
 export default function Page(): JSX.Element {
   const { isOpen, toggle, openModal, closeModal } = useModal();
   const [editingBook, setEditingBook] = useState<InterfaceBook | null>(null);
 
+  const currentPage = useAppSelector((state) => state.paginationReducer);
+  const dispatch = useAppDispatch();
+
   const { data, isLoading, error, refetch } = useQuery({
-    queryKey: ["books"],
-    queryFn: () => getAllBooks(),
+    queryKey: ["books", currentPage.page],
+    queryFn: () => getAllBooks(currentPage.page),
   });
 
   useEffect(() => {
@@ -28,6 +34,10 @@ export default function Page(): JSX.Element {
       closeModal();
     }
   }, [closeModal, editingBook, openModal]);
+
+  if (data?.bookCount) {
+    dispatch(updateTotalBooks(data?.bookCount));
+  }
 
   return (
     <>
@@ -57,15 +67,20 @@ export default function Page(): JSX.Element {
             <div className=" text-lg  container my-2 mx-auto px-4 md:px-12 lg:px-28 flex justify-center items-center h-[400px]">
               <Loader size="xl" />
             </div>
-          ) : data?.length ? (
-            data.map((book) => (
-              <BookCard
-                book={book}
-                key={book._id}
-                refetch={refetch}
-                setEditingBook={setEditingBook}
-              />
-            ))
+          ) : data?.books.length ? (
+            <>
+              {data.books.map((book) => (
+                <BookCard
+                  book={book}
+                  key={book._id}
+                  refetch={refetch}
+                  setEditingBook={setEditingBook}
+                />
+              ))}
+              <div className="flext justify-center w-full">
+                <Pagination />
+              </div>
+            </>
           ) : (
             <div className="text-lg container my-2 mx-auto px-4 md:px-12 lg:px-28 flex justify-center items-center h-[400px]">
               No books found create new.

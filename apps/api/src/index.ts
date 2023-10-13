@@ -48,7 +48,7 @@ interface InterfaceBook extends mongoose.Document {
 const Book = mongoose.model<InterfaceBook>("Book", bookSchema);
 
 app.get("/", (_req: Request, res: Response) => {
-  return res.json({ message: "Express Typescript API on Vercel" });
+  return res.json({ message: "Express Typescript API" });
 });
 
 app.post("/books", async (req, res) => {
@@ -74,19 +74,26 @@ app.post("/books", async (req, res) => {
 });
 
 app.get("/books", async (req, res) => {
-  try {
-    const books = await Book.find();
+  const itemsPerPage = 12;
+  const page = req.query.page ? +req.query.page : 0;
 
-    res.json({ books });
+  try {
+    const skip = page * itemsPerPage;
+
+    const books = await Book.find().skip(skip).limit(itemsPerPage);
+
+    const bookCount = await Book.countDocuments();
+
+    res.json({ books, bookCount });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Could not retrieve books" });
   }
 });
 
-app.get("/books/:id", async (req, res) => {
+app.get("/books/:bookId", async (req, res) => {
   try {
-    const bookId = req.params.id;
+    const { bookId } = req.params;
 
     const book = await Book.findById(bookId);
 
@@ -130,9 +137,9 @@ app.put("/books/:bookId", async (req, res) => {
   }
 });
 
-app.delete("/books/:id", async (req, res) => {
+app.delete("/books/:bookId", async (req, res) => {
   try {
-    const bookId = req.params.id;
+    const { bookId } = req.params;
 
     const deletedBook = await Book.findByIdAndRemove(bookId);
 
