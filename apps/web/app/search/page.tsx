@@ -3,10 +3,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useDebounce } from "use-debounce";
-import { Input } from "@/components/ui/input";
 import { searchBooks } from "@/services/book-services";
-import BookCard from "@/components/book/book-card";
-import { Loader } from "@/components/ui/loader";
+import { BookCard, Loader, Input } from "@/components/index";
 
 export default function Page(): JSX.Element {
   const [query, setQuery] = useState<string>("");

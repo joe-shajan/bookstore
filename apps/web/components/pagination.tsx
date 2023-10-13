@@ -2,7 +2,7 @@ import React from "react";
 import { previous, next } from "@/redux/features/pagination-slice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 
-function Pagination(): JSX.Element {
+export function Pagination(): JSX.Element {
   const { start, end, TotalBooks } = useAppSelector(
     (state) => state.paginationReducer
   );
@@ -67,5 +67,3 @@ function Pagination(): JSX.Element {
     </div>
   );
 }
-
-export default Pagination;

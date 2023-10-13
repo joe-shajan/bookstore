@@ -16,7 +16,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@/components/index";
 import { axios } from "@/lib";
 
 interface InterfaceBookCard {
@@ -25,7 +25,7 @@ interface InterfaceBookCard {
   setEditingBook?: (book: InterfaceBook | null) => void;
 }
 
-function BookCard({
+export function BookCard({
   book,
   setEditingBook,
   refetch,
@@ -107,5 +107,3 @@ function BookCard({
     </div>
   );
 }
-
-export default BookCard;

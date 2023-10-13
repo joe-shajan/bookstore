@@ -1,11 +1,11 @@
-export const SmallLoader = () => {
+export function SmallLoader(): JSX.Element {
   return (
     <div role="status">
       <svg
         aria-hidden="true"
         className="inline w-4 h-4 mr-2 text-gray-200 animate-spin dark:text-gray-300 fill-blue-600"
-        viewBox="0 0 100 101"
         fill="none"
+        viewBox="0 0 100 101"
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
@@ -20,16 +20,16 @@ export const SmallLoader = () => {
       <span className="sr-only">Loading...</span>
     </div>
   );
-};
+}
 
-export const LargeLoader = () => {
+export function LargeLoader(): JSX.Element {
   return (
     <div role="status">
       <svg
         aria-hidden="true"
         className="inline w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-300 fill-blue-600"
-        viewBox="0 0 100 101"
         fill="none"
+        viewBox="0 0 100 101"
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
@@ -44,15 +44,15 @@ export const LargeLoader = () => {
       <span className="sr-only">Loading...</span>
     </div>
   );
-};
-export const ExtraLargeLoader = () => {
+}
+export function ExtraLargeLoader(): JSX.Element {
   return (
     <div role="status">
       <svg
         aria-hidden="true"
         className="inline w-10 h-10 mr-2 text-gray-200 animate-spin dark:text-gray-300 fill-blue-600"
-        viewBox="0 0 100 101"
         fill="none"
+        viewBox="0 0 100 101"
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
@@ -67,9 +67,13 @@ export const ExtraLargeLoader = () => {
       <span className="sr-only">Loading...</span>
     </div>
   );
-};
+}
 
-export const Loader = ({ size }: { size?: "small" | "large" | "xl" }) => {
+export function Loader({
+  size,
+}: {
+  size?: "small" | "large" | "xl";
+}): JSX.Element {
   switch (size) {
     case "xl":
       return <ExtraLargeLoader />;
@@ -83,4 +87,4 @@ export const Loader = ({ size }: { size?: "small" | "large" | "xl" }) => {
     default:
       return <SmallLoader />;
   }
-};
+}

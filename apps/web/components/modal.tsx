@@ -7,11 +7,7 @@ interface ModalType {
   toggle: () => void;
 }
 
-export default function Modal({
-  toggle,
-  isOpen,
-  children,
-}: ModalType): JSX.Element {
+export function Modal({ toggle, isOpen, children }: ModalType): JSX.Element {
   return (
     <>
       {isOpen ? (

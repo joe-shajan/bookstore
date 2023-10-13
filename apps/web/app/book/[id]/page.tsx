@@ -1,8 +1,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import BookCard from "@/components/book/book-card";
-import { Loader } from "@/components/ui/loader";
+import { BookCard, Loader } from "@/components/index";
 import { getBookById } from "@/services/book-services";
 
 export default function Page({ params }): JSX.Element {
