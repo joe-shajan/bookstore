@@ -18,14 +18,14 @@ export default function Page(): JSX.Element {
 
   return (
     <>
-      <div className="flex w-full items-center space-x-2 justify-center my-6 px-4">
+      <div className="flex w-full items-center space-x-2 justify-center px-8 pt-5 pb-5 bg-slate-50 shadow-sm">
         <form className="flex gap-3 md:w-1/3 w-full ">
           <Input
             className="w-full"
             onChange={(event) => {
               setQuery(event?.target?.value as string);
             }}
-            placeholder="Search"
+            placeholder="Search books"
             type="text"
             value={query}
           />

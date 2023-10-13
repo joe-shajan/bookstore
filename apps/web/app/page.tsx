@@ -52,7 +52,7 @@ export default function Page(): JSX.Element {
           toggle={toggle}
         />
       </Modal>
-      <div className="flex md:flex-row flex-col md:justify-between md:items-center px-4 md:px-12 lg:px-28 mt-6 mb-2">
+      <div className="flex md:flex-row flex-col md:justify-between md:items-center px-4 md:px-12 lg:px-28 pt-5 pb-5 bg-slate-50 shadow-sm">
         <div className="text-2xl font-semibold text-center md:text-left md:mb-0 mb-6">
           All Books
         </div>
@@ -60,10 +60,10 @@ export default function Page(): JSX.Element {
           <div className="flex gap-3 justify-end">
             <Link href="/search">
               <Button className="bg-slate-200 text-black hover:bg-slate-300">
-                Search
+                Search books
               </Button>
             </Link>
-            <Button onClick={toggle}>Create New Book</Button>
+            <Button onClick={toggle}>Add New Book</Button>
           </div>
         </div>
       </div>
