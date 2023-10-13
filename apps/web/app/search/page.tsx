@@ -3,7 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useDebounce } from "use-debounce";
-import { searchBooks } from "@/services/book-services";
+import { searchBooks } from "@/services";
 import { BookCard, Loader, Input } from "@/components/index";
 
 export default function Page(): JSX.Element {

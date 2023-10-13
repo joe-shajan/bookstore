@@ -2,7 +2,7 @@
 
 import { useCallback, useState } from "react";
 
-export default function useModal(): {
+export function useModal(): {
   isOpen: boolean;
   toggle: () => void;
   openModal: () => void;

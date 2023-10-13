@@ -4,11 +4,9 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Toaster } from "react-hot-toast";
-import { getAllBooks } from "@/services/book-services";
-import useModal from "@/hooks/use-modal";
+import { getAllBooks } from "@/services";
+import { useModal } from "@/hooks";
 import type { InterfaceBook } from "@/types";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { updateTotalBooks } from "@/redux/features/pagination-slice";
 import {
   Modal,
   BookCard,
@@ -17,6 +15,7 @@ import {
   Button,
   CreateBook,
 } from "@/components/index";
+import { updateTotalBooks, useAppDispatch, useAppSelector } from "@/redux";
 
 export default function Page(): JSX.Element {
   const { isOpen, toggle, openModal, closeModal } = useModal();

@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { BookCard, Loader } from "@/components/index";
-import { getBookById } from "@/services/book-services";
+import { getBookById } from "@/services";
 
 export default function Page({ params }): JSX.Element {
   const { id } = params;
