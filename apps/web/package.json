@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@elastic/elasticsearch": "^8.10.0",
     "@hookform/resolvers": "^3.3.2",
     "@radix-ui/react-dropdown-menu": "^2.0.6",
     "@reduxjs/toolkit": "^1.9.7",

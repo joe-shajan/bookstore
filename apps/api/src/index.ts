@@ -1,7 +1,9 @@
+require("dotenv").config();
 import express, { Request, Response } from "express";
 import mongoose from "mongoose";
 import cors from "cors";
-require("dotenv").config();
+import { elasticClient } from "./elastic-client";
+import { seed_books } from "./seed-data";
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -66,12 +68,97 @@ app.post("/books", async (req, res) => {
 
     const createdbook = await newBook.save();
 
+    await elasticClient.index({
+      index: "books",
+      id: createdbook._id.toString(),
+      body: {
+        title: createdbook.title,
+        author: createdbook.author,
+        description: createdbook.description,
+        publicationYear: createdbook.publicationYear.toString(),
+        isbn: createdbook.isbn,
+      },
+    });
+
     res.json({ createdbook });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Could not create a new book" });
   }
 });
+app.post("/seed-books", async (req, res) => {
+  try {
+    return res.json({ books: seed_books });
+    for (let book of seed_books) {
+      const newBook = new Book(book);
+
+      const createdbook = await newBook.save();
+
+      await elasticClient.index({
+        index: "books",
+        id: createdbook._id.toString(),
+        body: {
+          title: createdbook.title,
+          author: createdbook.author,
+          description: createdbook.description,
+          publicationYear: createdbook.publicationYear.toString(),
+          isbn: createdbook.isbn,
+        },
+      });
+      console.log(newBook._id);
+    }
+
+    res.json({ books: seed_books });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Could not create a new book" });
+  }
+});
+
+app.get("/search", async (req, res) => {
+  const { query } = req.query;
+
+  try {
+    // Use Elasticsearch to perform the search
+    const searchResults = await elasticClient.search({
+      index: "books",
+      body: {
+        query: {
+          multi_match: {
+            // @ts-ignore
+            query,
+            fields: ["title", "author", "description", "publicationYear"],
+          },
+        },
+      },
+    });
+
+    // Extract and return the search results
+
+    const hits = searchResults.hits.hits;
+    // // @ts-ignore
+    const books = hits.map((hit) => {
+      return {
+        _id: hit._id,
+        // @ts-ignore
+        ...hit._source,
+      };
+    });
+    res.json(books);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error performing the search" });
+  }
+});
+
+// app.get("/search", async (req, res) => {
+//   const result = await elasticClient.search({
+//     index: "posts",
+//     query: { fuzzy: { title: req.query.query } },
+//   });
+
+//   res.json(result);
+// });
 
 app.get("/books", async (req, res) => {
   const itemsPerPage = 12;
@@ -130,6 +217,20 @@ app.put("/books/:bookId", async (req, res) => {
       return res.status(404).json({ error: "Book not found" });
     }
 
+    await elasticClient.update({
+      index: "books",
+      id: updatedBook._id.toString(),
+      body: {
+        doc: {
+          title: updatedBook.title,
+          author: updatedBook.author,
+          description: updatedBook.description,
+          publicationYear: updatedBook.publicationYear.toString(),
+          isbn: updatedBook.isbn,
+        },
+      },
+    });
+
     res.json(updatedBook);
   } catch (error) {
     console.error(error);
@@ -146,6 +247,11 @@ app.delete("/books/:bookId", async (req, res) => {
     if (!deletedBook) {
       return res.status(404).json({ error: "Book not found" });
     }
+
+    await elasticClient.delete({
+      index: "books",
+      id: deletedBook._id.toString(),
+    });
 
     res.json(deletedBook);
   } catch (error) {

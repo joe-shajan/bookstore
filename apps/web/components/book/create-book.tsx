@@ -6,11 +6,11 @@ import { z } from "zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { AiOutlineClose } from "react-icons/ai";
+import { useEffect } from "react";
 import { Button } from "../ui/button";
 import { Loader } from "../ui/loader";
 import { axios } from "@/lib/axios";
 import type { InterfaceBook } from "@/types";
-import { useEffect } from "react";
 
 const validationSchema = z.object({
   title: z.string().min(1, { message: "title is required" }),
@@ -37,7 +37,7 @@ export function CreateBookForm({
   refetch,
   setEditingBook,
 }: InterfaceCreateBookFormProps): JSX.Element {
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
 
   const {
     register,
@@ -53,12 +53,13 @@ export function CreateBookForm({
     mutationFn: (data: ValidationSchema) => {
       return axios.post("/books", data);
     },
-    onSuccess: ({ data }) => {
+    onSuccess: () => {
       toast.success("book created successfully");
-      queryClient.setQueryData(["books"], (oldData: any) => [
-        ...oldData,
-        data.createdbook,
-      ]);
+      // queryClient.setQueryData(["books"], (oldData: any) => [
+      //   ...oldData,
+      //   data.createdbook,
+      // ]);
+      refetch();
       toggle();
     },
     onError: (error) => {
@@ -71,7 +72,7 @@ export function CreateBookForm({
     mutationFn: (data: ValidationSchema) => {
       return axios.put(`/books/${editingBook?._id}`, data);
     },
-    onSuccess: ({ data }) => {
+    onSuccess: () => {
       // queryClient.setQueryData(["books"], (oldData: any) => {
       //   const filteredData = oldData.books.filter(
       //     (book: any) => book.id !== data.updatedbook.id
@@ -94,7 +95,7 @@ export function CreateBookForm({
   useEffect(() => {
     if (editingBook) {
       setValue("title", editingBook.title as string);
-      setValue("author", editingBook.description as string);
+      setValue("author", editingBook.author as string);
       setValue("publicationYear", editingBook.publicationYear as number);
       setValue("isbn", editingBook.isbn as string);
       setValue("description", editingBook.description as string);
