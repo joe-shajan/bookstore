@@ -4,10 +4,9 @@ import React from "react";
 interface ModalType {
   children?: ReactNode;
   isOpen: boolean;
-  toggle: () => void;
 }
 
-export function Modal({ toggle, isOpen, children }: ModalType): JSX.Element {
+export function Modal({ isOpen, children }: ModalType): JSX.Element {
   return (
     <>
       {isOpen ? (

@@ -44,7 +44,7 @@ export default function Page(): JSX.Element {
 
   return (
     <>
-      <Modal isOpen={isOpen} toggle={toggle}>
+      <Modal isOpen={isOpen}>
         <CreateBook
           editingBook={editingBook}
           refetch={refetch}

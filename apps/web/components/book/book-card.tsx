@@ -9,7 +9,7 @@ import {
 } from "react-icons/bs";
 import { MdOutlineDescription } from "react-icons/md";
 import { useMutation } from "@tanstack/react-query";
-import toast from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import type { InterfaceBook } from "@/types";
 import {
   DropdownMenu,

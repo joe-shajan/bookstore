@@ -3,8 +3,8 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import toast from "react-hot-toast";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "react-hot-toast";
 import { AiOutlineClose } from "react-icons/ai";
 import { useEffect } from "react";
 import { Button } from "../ui/button";
@@ -45,7 +45,6 @@ export function CreateBookForm({
     formState: { errors },
     setValue,
   } = useForm<ValidationSchema>({
-    // @ts-ignore
     resolver: zodResolver(validationSchema),
   });
 
@@ -100,7 +99,7 @@ export function CreateBookForm({
       setValue("isbn", editingBook.isbn as string);
       setValue("description", editingBook.description as string);
     }
-  }, [editingBook]);
+  }, [editingBook, setValue]);
 
   return (
     <form
