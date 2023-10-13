@@ -16,7 +16,7 @@ export const getBookById = async (id: string): Promise<InterfaceBook> => {
 };
 
 export const searchBooks = async (query: string): Promise<InterfaceBook[]> => {
-  const response = await axios.get(`search?query=${query}`);
+  const response = await axios.get(`books/search?query=${query}`);
   const { books } = response.data;
   return books;
 };

@@ -1,8 +1,9 @@
 import { Client } from "@elastic/elasticsearch";
+import { ELASTIC_CLOUD_ID } from "./config";
 
 export const elasticClient = new Client({
   cloud: {
-    id: process.env.ELASTIC_CLOUD_ID as string,
+    id: ELASTIC_CLOUD_ID,
   },
   auth: {
     username: process.env.ELASTIC_USERNAME as string,
