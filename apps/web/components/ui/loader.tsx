@@ -99,7 +99,7 @@ export function BooksCardSkeletonLoader(): JSX.Element {
           className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3"
           key={i}
         >
-          <Skeleton className="h-[265px] flex flex-col items-center justify-around rounded-lg">
+          <Skeleton className="h-[265px] flex flex-col items-center justify-around rounded-lg py-6">
             <Skeleton className="h-[35px] w-2/3 rounded-lg bg-slate-200" />
             <Skeleton className="h-[15px] w-1/4 rounded-lg bg-slate-200" />
             <Skeleton className="h-[15px] w-1/2 rounded-lg bg-slate-200" />
