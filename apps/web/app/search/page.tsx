@@ -58,8 +58,11 @@ export default function Page(): JSX.Element {
               </>
             ) : (
               <div className="text-lg container my-2 mx-auto px-4 md:px-12 lg:px-28 flex justify-center items-center h-[400px]">
-                Your search -<span className="font-semibold mx-2">{query}</span>
-                - did not match any documents.
+                <p>
+                  Your search -
+                  <span className="font-semibold mx-2">{query}</span>- did not
+                  match any documents.
+                </p>
               </div>
             )
           ) : (
