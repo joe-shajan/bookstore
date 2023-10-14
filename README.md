@@ -12,7 +12,7 @@
     cd bookstore
     ```
 
-3. Add `.env` file to `apps/api` and `.env.local` file to `apps/web`
+3. Add `.env` file to `apps/api`.
 
 4. install packages
 
