@@ -15,7 +15,6 @@ export class App {
   public port: string | number;
 
   constructor(routes: Routes[]) {
-    console.log(PORT, "port");
     this.app = express();
     this.env = NODE_ENV || "development";
     this.port = PORT || 8080;

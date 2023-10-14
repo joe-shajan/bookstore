@@ -78,7 +78,6 @@ export class BookController {
     next: NextFunction
   ) => {
     const { query } = req.query;
-    console.log(query);
 
     try {
       const data = await this.controller.searchBook(query as string);

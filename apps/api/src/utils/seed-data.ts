@@ -302,7 +302,7 @@
 //           isbn: createdbook.isbn,
 //         },
 //       });
-//       console.log(newBook._id);
+
 //     }
 
 //     return { books: seed_books };
