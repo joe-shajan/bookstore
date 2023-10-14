@@ -4,7 +4,12 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useDebounce } from "use-debounce";
 import { searchBooks } from "@/services";
-import { BookCard, Loader, Input } from "@/components/index";
+import {
+  BookCard,
+  Loader,
+  Input,
+  BooksCardSkeletonLoader,
+} from "@/components/index";
 
 export default function Page(): JSX.Element {
   const [query, setQuery] = useState<string>("");
@@ -39,9 +44,7 @@ export default function Page(): JSX.Element {
                 could not fetch books
               </div>
             ) : isLoading ? (
-              <div className=" text-lg  container my-2 mx-auto px-4 md:px-12 lg:px-28 flex justify-center items-center h-[400px]">
-                <Loader size="xl" />
-              </div>
+              <BooksCardSkeletonLoader />
             ) : data?.length ? (
               <>
                 {data.map((book) => (

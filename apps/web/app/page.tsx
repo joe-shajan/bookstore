@@ -11,9 +11,9 @@ import {
   Modal,
   BookCard,
   Pagination,
-  Loader,
   Button,
   CreateBook,
+  BooksCardSkeletonLoader,
 } from "@/components/index";
 import { updateTotalBooks, useAppDispatch, useAppSelector } from "@/redux";
 
@@ -73,9 +73,7 @@ export default function Page(): JSX.Element {
               could not fetch books
             </div>
           ) : isLoading ? (
-            <div className=" text-lg  container my-2 mx-auto px-4 md:px-12 lg:px-28 flex justify-center items-center h-[400px]">
-              <Loader size="xl" />
-            </div>
+            <BooksCardSkeletonLoader />
           ) : data?.books.length ? (
             <>
               {data.books.map((book) => (
